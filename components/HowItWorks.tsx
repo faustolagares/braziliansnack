@@ -23,6 +23,29 @@ export const HowItWorks: React.FC<Props> = ({ t }) => {
   useEffect(() => {
     if (!stepsRef.current) return;
 
+    const stepCards = stepsRef.current.querySelectorAll('[data-index]');
+    
+    // Verifica quais steps já estão visíveis inicialmente
+    const checkInitialVisibility = () => {
+      stepCards.forEach((card) => {
+        const rect = card.getBoundingClientRect();
+        const isInViewport = 
+          rect.top < window.innerHeight &&
+          rect.bottom > 0 &&
+          rect.left < window.innerWidth &&
+          rect.right > 0;
+        
+        if (isInViewport) {
+          const index = parseInt(card.getAttribute('data-index') || '0', 10);
+          setTimeout(() => {
+            setVisibleSteps((prev) => new Set([...prev, index]));
+          }, index * 150);
+        }
+      });
+    };
+
+    checkInitialVisibility();
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -41,10 +64,23 @@ export const HowItWorks: React.FC<Props> = ({ t }) => {
       }
     );
 
-    const stepCards = stepsRef.current.querySelectorAll('[data-index]');
     stepCards.forEach((card) => observer.observe(card));
 
+    // Fallback: mostra todos os steps após 2 segundos se não foram detectados
+    const fallbackTimeout = setTimeout(() => {
+      stepCards.forEach((card) => {
+        const index = parseInt(card.getAttribute('data-index') || '0', 10);
+        setVisibleSteps((prev) => {
+          if (!prev.has(index)) {
+            return new Set([...prev, index]);
+          }
+          return prev;
+        });
+      });
+    }, 2000);
+
     return () => {
+      clearTimeout(fallbackTimeout);
       stepCards.forEach((card) => observer.unobserve(card));
     };
   }, []);

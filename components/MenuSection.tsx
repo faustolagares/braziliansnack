@@ -37,6 +37,29 @@ export const MenuSection: React.FC<Props> = ({ t, lang, onOrderClick, onProductC
   useEffect(() => {
     if (!cardsRef.current) return;
 
+    const cards = cardsRef.current.querySelectorAll('[data-index]');
+    
+    // Verifica quais cards já estão visíveis inicialmente
+    const checkInitialVisibility = () => {
+      cards.forEach((card) => {
+        const rect = card.getBoundingClientRect();
+        const isInViewport = 
+          rect.top < window.innerHeight &&
+          rect.bottom > 0 &&
+          rect.left < window.innerWidth &&
+          rect.right > 0;
+        
+        if (isInViewport) {
+          const index = parseInt(card.getAttribute('data-index') || '0', 10);
+          setTimeout(() => {
+            setVisibleCards((prev) => new Set([...prev, index]));
+          }, index * 100);
+        }
+      });
+    };
+
+    checkInitialVisibility();
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -55,10 +78,23 @@ export const MenuSection: React.FC<Props> = ({ t, lang, onOrderClick, onProductC
       }
     );
 
-    const cards = cardsRef.current.querySelectorAll('[data-index]');
     cards.forEach((card) => observer.observe(card));
 
+    // Fallback: mostra todos os cards após 2 segundos se não foram detectados
+    const fallbackTimeout = setTimeout(() => {
+      cards.forEach((card) => {
+        const index = parseInt(card.getAttribute('data-index') || '0', 10);
+        setVisibleCards((prev) => {
+          if (!prev.has(index)) {
+            return new Set([...prev, index]);
+          }
+          return prev;
+        });
+      });
+    }, 2000);
+
     return () => {
+      clearTimeout(fallbackTimeout);
       cards.forEach((card) => observer.unobserve(card));
     };
   }, [filteredProducts]);
