@@ -50,7 +50,7 @@ export const ProductDetails: React.FC<Props> = ({ product, lang, t, onBack, onOr
                         </span>
                     )}
                     <span className="bg-brand-porcelain text-brand-onyx px-4 py-2 font-bold uppercase text-xs border-2 border-brand-onyx shadow-sm">
-                        {product.category === 'savory' ? t.menu.savoryTab : t.menu.sweetTab}
+                        {product.category === 'savory' ? (lang === 'pt' ? 'Salgado' : lang === 'en' ? 'Savory' : 'Salado') : (lang === 'pt' ? 'Doce' : lang === 'en' ? 'Sweet' : 'Dulce')}
                     </span>
                 </div>
              </div>

@@ -71,10 +71,56 @@ export interface Translation {
   menu: {
     title: string;
     subtitle: string;
-    savoryTab: string;
-    sweetTab: string;
     unit: string;
     learnMore: string;
+  };
+  sweets: {
+    title: string;
+    subtitle: string;
+    unit: string;
+    learnMore: string;
+  };
+  features: {
+    title: string;
+    subtitle: string;
+    delivery: {
+      title: string;
+      desc: string;
+    };
+    frozen: {
+      title: string;
+      desc: string;
+    };
+    madeToOrder: {
+      title: string;
+      desc: string;
+    };
+    packages: {
+      title: string;
+      desc: string;
+    };
+  };
+  calculatorCTA: {
+    title: string;
+    subtitle: string;
+    button: string;
+    features: string[];
+  };
+  calculator: {
+    title: string;
+    subtitle: string;
+    peopleLabel: string;
+    recommendedSavory: string;
+    recommendedSweet: string;
+    selectProducts: string;
+    quantity: string;
+    package: string;
+    total: string;
+    sendToWhatsApp: string;
+    reset: string;
+    noProducts: string;
+    backToHome: string;
+    orderMessage: string;
   };
   steps: {
     title: string;

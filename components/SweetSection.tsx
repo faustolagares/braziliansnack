@@ -6,17 +6,17 @@ import { Tag, ArrowRight } from 'lucide-react';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 
 interface Props {
-  t: Translation['menu'];
+  t: Translation['sweets'];
   lang: Language;
   onOrderClick: () => void;
   onProductClick: (product: Product) => void;
 }
 
-export const MenuSection: React.FC<Props> = ({ t, lang, onOrderClick, onProductClick }) => {
+export const SweetSection: React.FC<Props> = ({ t, lang, onOrderClick, onProductClick }) => {
   const [visibleCards, setVisibleCards] = useState<Set<number>>(new Set());
 
-  // Filtrar apenas salgados
-  const savoryProducts = PRODUCTS.filter(p => p.category === 'savory');
+  // Filtrar apenas doces
+  const sweetProducts = PRODUCTS.filter(p => p.category === 'sweet');
 
   const headerRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
@@ -88,14 +88,14 @@ export const MenuSection: React.FC<Props> = ({ t, lang, onOrderClick, onProductC
       });
     }, 2000);
 
-      return () => {
-        clearTimeout(fallbackTimeout);
-        cards.forEach((card) => observer.unobserve(card));
-      };
-    }, [savoryProducts]);
+    return () => {
+      clearTimeout(fallbackTimeout);
+      cards.forEach((card) => observer.unobserve(card));
+    };
+  }, [sweetProducts]);
 
   return (
-    <section id="menu" className="py-24 bg-brand-porcelain relative">
+    <section id="sweets" className="py-24 bg-brand-porcelain relative">
       {/* Subtle Grid Background */}
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{
          backgroundImage: 'linear-gradient(var(--onyx) 1px, transparent 1px), linear-gradient(90deg, var(--onyx) 1px, transparent 1px)',
@@ -119,9 +119,9 @@ export const MenuSection: React.FC<Props> = ({ t, lang, onOrderClick, onProductC
           </div>
         </div>
 
-        {/* Clean Cards Grid */}
+        {/* Cards Grid */}
         <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
-          {savoryProducts.map((product, index) => (
+          {sweetProducts.map((product, index) => (
             <div 
               key={product.id}
               data-index={index}
@@ -145,7 +145,7 @@ export const MenuSection: React.FC<Props> = ({ t, lang, onOrderClick, onProductC
                   {/* Category Badge */}
                   <div className="bg-brand-porcelain text-brand-onyx text-[10px] font-black px-3 py-1.5 rounded-none border-2 border-brand-onyx uppercase tracking-wider shadow-sm flex items-center gap-1.5">
                     <Tag size={12} strokeWidth={3} />
-                    {product.category === 'savory' ? 'Salgado' : 'Doce'}
+                    Doce
                   </div>
 
                   {/* Popular Badge */}
@@ -187,3 +187,4 @@ export const MenuSection: React.FC<Props> = ({ t, lang, onOrderClick, onProductC
     </section>
   );
 };
+

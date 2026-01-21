@@ -23,12 +23,63 @@ export const TRANSLATIONS: Record<Language, Translation> = {
       orderBtn: "Pedir Agora"
     },
     menu: {
-      title: "Nosso Cardápio",
+      title: "Salgados",
       subtitle: "Escolha seus favoritos. Vendemos pacotes de 30, 50, 100 e 150 unidades.",
-      savoryTab: "Salgados",
-      sweetTab: "Doces",
       unit: "O cento (100un)",
       learnMore: "Saiba mais..."
+    },
+    sweets: {
+      title: "Doces",
+      subtitle: "Doces tradicionais brasileiros para adoçar sua festa.",
+      unit: "O cento (100un)",
+      learnMore: "Saiba mais..."
+    },
+    features: {
+      title: "O Que Oferecemos",
+      subtitle: "Tudo que você precisa para sua festa ser um sucesso",
+      delivery: {
+        title: "Delivery Disponível",
+        desc: "Entregamos em Delanco, Riverside, Delran e região."
+      },
+      frozen: {
+        title: "Também Vendemos Congelado",
+        desc: "Leve para casa e prepare quando quiser. Instruções incluídas."
+      },
+      madeToOrder: {
+        title: "Feito Sob Encomenda",
+        desc: "Tudo preparado na hora, garantindo frescor e qualidade."
+      },
+      packages: {
+        title: "Pacotes para Festas",
+        desc: "Pacotes de 30, 50, 100 e 150 unidades para todos os tamanhos."
+      }
+    },
+    calculatorCTA: {
+      title: "Calcule Seu Pedido",
+      subtitle: "Use nossa calculadora para descobrir quantos salgados e doces você precisa para sua festa",
+      button: "Abrir Calculadora",
+      features: [
+        "Cálculo automático por número de pessoas",
+        "Selecione seus produtos favoritos",
+        "Veja o preço total em tempo real",
+        "Envie direto para o WhatsApp"
+      ]
+    },
+    calculator: {
+      title: "Calcule Seu Pedido",
+      subtitle: "Informe o número de pessoas e escolha seus produtos",
+      peopleLabel: "Número de pessoas",
+      recommendedSavory: "Salgados recomendados",
+      recommendedSweet: "Doces recomendados",
+      selectProducts: "Selecione os produtos",
+      quantity: "Quantidade",
+      package: "Pacote",
+      total: "Total",
+      sendToWhatsApp: "Enviar para WhatsApp",
+      reset: "Limpar",
+      noProducts: "Selecione pelo menos um produto",
+      backToHome: "Voltar para Home",
+      orderMessage: "Olá! Gostaria de fazer um pedido:\n\n📋 PEDIDO PARA FESTA\n👥 Número de pessoas: {people}\n\n🍴 SALGADOS:\n{savoryList}\n\n🍰 DOCES:\n{sweetList}\n\n💰 TOTAL: ${total}\n\n[Produtos podem ser congelados ou prontos]"
     },
     steps: {
       title: "Simples e Rápido",
@@ -90,12 +141,63 @@ export const TRANSLATIONS: Record<Language, Translation> = {
       orderBtn: "Order Now"
     },
     menu: {
-      title: "Our Menu",
+      title: "Savory Snacks",
       subtitle: "Pick your favorites. We sell packages of 30, 50, 100, and 150 units.",
-      savoryTab: "Savory Snacks",
-      sweetTab: "Sweets",
       unit: "Per Hundred (100ct)",
       learnMore: "Learn more..."
+    },
+    sweets: {
+      title: "Sweets",
+      subtitle: "Traditional Brazilian sweets to sweeten your party.",
+      unit: "Per Hundred (100ct)",
+      learnMore: "Learn more..."
+    },
+    features: {
+      title: "What We Offer",
+      subtitle: "Everything you need to make your party a success",
+      delivery: {
+        title: "Delivery Available",
+        desc: "We deliver to Delanco, Riverside, Delran and surrounding areas."
+      },
+      frozen: {
+        title: "Also Available Frozen",
+        desc: "Take home and prepare whenever you want. Instructions included."
+      },
+      madeToOrder: {
+        title: "Made to Order",
+        desc: "Everything prepared fresh, ensuring freshness and quality."
+      },
+      packages: {
+        title: "Party Packages",
+        desc: "Packages of 30, 50, 100 and 150 units for all sizes."
+      }
+    },
+    calculatorCTA: {
+      title: "Calculate Your Order",
+      subtitle: "Use our calculator to find out how many snacks and sweets you need for your party",
+      button: "Open Calculator",
+      features: [
+        "Automatic calculation by number of people",
+        "Select your favorite products",
+        "See total price in real time",
+        "Send directly to WhatsApp"
+      ]
+    },
+    calculator: {
+      title: "Calculate Your Order",
+      subtitle: "Enter the number of people and choose your products",
+      peopleLabel: "Number of people",
+      recommendedSavory: "Recommended savory snacks",
+      recommendedSweet: "Recommended sweets",
+      selectProducts: "Select products",
+      quantity: "Quantity",
+      package: "Package",
+      total: "Total",
+      sendToWhatsApp: "Send to WhatsApp",
+      reset: "Clear",
+      noProducts: "Select at least one product",
+      backToHome: "Back to Home",
+      orderMessage: "Hello! I would like to place an order:\n\n📋 PARTY ORDER\n👥 Number of people: {people}\n\n🍴 SAVORY SNACKS:\n{savoryList}\n\n🍰 SWEETS:\n{sweetList}\n\n💰 TOTAL: ${total}\n\n[Products can be frozen or ready]"
     },
     steps: {
       title: "Simple & Fast",
@@ -157,12 +259,63 @@ export const TRANSLATIONS: Record<Language, Translation> = {
       orderBtn: "Pedir Ahora"
     },
     menu: {
-      title: "Nuestro Menú",
+      title: "Salados",
       subtitle: "Elige tus favoritos. Vendemos paquetes de 30, 50, 100 y 150 unidades.",
-      savoryTab: "Salados",
-      sweetTab: "Dulces",
       unit: "El ciento (100ud)",
       learnMore: "Saber más..."
+    },
+    sweets: {
+      title: "Dulces",
+      subtitle: "Dulces tradicionales brasileños para endulzar tu fiesta.",
+      unit: "El ciento (100ud)",
+      learnMore: "Saber más..."
+    },
+    features: {
+      title: "Lo Que Ofrecemos",
+      subtitle: "Todo lo que necesitas para que tu fiesta sea un éxito",
+      delivery: {
+        title: "Delivery Disponible",
+        desc: "Entregamos en Delanco, Riverside, Delran y región."
+      },
+      frozen: {
+        title: "También Disponible Congelado",
+        desc: "Llévalo a casa y prepáralo cuando quieras. Instrucciones incluidas."
+      },
+      madeToOrder: {
+        title: "Hecho por Encargo",
+        desc: "Todo preparado fresco, garantizando frescura y calidad."
+      },
+      packages: {
+        title: "Paquetes para Fiestas",
+        desc: "Paquetes de 30, 50, 100 y 150 unidades para todos los tamaños."
+      }
+    },
+    calculatorCTA: {
+      title: "Calcula Tu Pedido",
+      subtitle: "Usa nuestra calculadora para descubrir cuántos aperitivos y dulces necesitas para tu fiesta",
+      button: "Abrir Calculadora",
+      features: [
+        "Cálculo automático por número de personas",
+        "Selecciona tus productos favoritos",
+        "Ve el precio total en tiempo real",
+        "Envía directo a WhatsApp"
+      ]
+    },
+    calculator: {
+      title: "Calcula Tu Pedido",
+      subtitle: "Ingresa el número de personas y elige tus productos",
+      peopleLabel: "Número de personas",
+      recommendedSavory: "Salados recomendados",
+      recommendedSweet: "Dulces recomendados",
+      selectProducts: "Selecciona los productos",
+      quantity: "Cantidad",
+      package: "Paquete",
+      total: "Total",
+      sendToWhatsApp: "Enviar a WhatsApp",
+      reset: "Limpiar",
+      noProducts: "Selecciona al menos un producto",
+      backToHome: "Volver al Inicio",
+      orderMessage: "¡Hola! Me gustaría hacer un pedido:\n\n📋 PEDIDO PARA FIESTA\n👥 Número de personas: {people}\n\n🍴 SALADOS:\n{savoryList}\n\n🍰 DULCES:\n{sweetList}\n\n💰 TOTAL: ${total}\n\n[Productos pueden ser congelados o listos]"
     },
     steps: {
       title: "Simple y Rápido",

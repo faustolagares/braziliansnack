@@ -4,7 +4,11 @@ import { Language, Product } from './types';
 import { TRANSLATIONS, WHATSAPP_NUMBER } from './constants';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
+import { FeaturesSection } from './components/FeaturesSection';
+import { CalculatorCTA } from './components/CalculatorCTA';
+import { CalculatorPage } from './components/CalculatorPage';
 import { MenuSection } from './components/MenuSection';
+import { SweetSection } from './components/SweetSection';
 import { HowItWorks } from './components/HowItWorks';
 import { Testimonials } from './components/Testimonials';
 import { Footer } from './components/Footer';
@@ -37,6 +41,7 @@ const App: React.FC = () => {
 
   const [lang, setLang] = useState<Language>(detectLanguage());
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [currentPage, setCurrentPage] = useState<'home' | 'calculator' | 'product'>('home');
   
   const t = TRANSLATIONS[lang];
 
@@ -49,7 +54,7 @@ const App: React.FC = () => {
   // Reset scroll when navigating
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [selectedProduct]);
+  }, [selectedProduct, currentPage]);
 
   const handleOrderClick = () => {
     let message = t.common.whatsAppMessage;
@@ -65,10 +70,16 @@ const App: React.FC = () => {
 
   const handleProductClick = (product: Product) => {
     setSelectedProduct(product);
+    setCurrentPage('product');
   };
 
   const handleBackToHome = () => {
     setSelectedProduct(null);
+    setCurrentPage('home');
+  };
+
+  const handleOpenCalculator = () => {
+    setCurrentPage('calculator');
   };
 
   return (
@@ -81,44 +92,64 @@ const App: React.FC = () => {
       />
       
       <main className="flex-grow">
-        {selectedProduct ? (
-            <ProductDetails 
-              product={selectedProduct}
-              lang={lang}
-              t={t}
-              onBack={handleBackToHome}
-              onOrderClick={handleOrderClick}
-            />
+        {currentPage === 'calculator' ? (
+          <CalculatorPage 
+            t={t}
+            lang={lang}
+            onBack={handleBackToHome}
+          />
+        ) : currentPage === 'product' && selectedProduct ? (
+          <ProductDetails 
+            product={selectedProduct}
+            lang={lang}
+            t={t}
+            onBack={handleBackToHome}
+            onOrderClick={handleOrderClick}
+          />
         ) : (
-            <>
-                <Hero 
-                t={t.hero} 
-                onOrderClick={handleOrderClick} 
-                />
-                
-                <Marquee />
+          <>
+            <Hero 
+              t={t.hero} 
+              onOrderClick={handleOrderClick} 
+            />
+            
+            <Marquee />
 
-                <MenuSection 
-                t={t.menu} 
-                lang={lang} 
-                onOrderClick={handleOrderClick} 
-                onProductClick={handleProductClick}
-                />
-                
-                <HowItWorks 
-                t={t.steps} 
-                />
-                
-                <Testimonials t={t.testimonials} />
+            <FeaturesSection t={t.features} />
 
-                <CTASection t={t.ctaSection} onOrderClick={handleOrderClick} />
-            </>
+            <CalculatorCTA 
+              t={t.calculatorCTA} 
+              onOpenCalculator={handleOpenCalculator}
+            />
+
+            <MenuSection 
+              t={t.menu} 
+              lang={lang} 
+              onOrderClick={handleOrderClick} 
+              onProductClick={handleProductClick}
+            />
+            
+            <SweetSection 
+              t={t.sweets} 
+              lang={lang} 
+              onOrderClick={handleOrderClick} 
+              onProductClick={handleProductClick}
+            />
+            
+            <HowItWorks 
+              t={t.steps} 
+            />
+            
+            <Testimonials t={t.testimonials} />
+
+            <CTASection t={t.ctaSection} onOrderClick={handleOrderClick} />
+          </>
         )}
       </main>
 
       <Footer t={t.footer} lang={lang} />
       
-      <FloatingWhatsApp onClick={handleOrderClick} />
+      <FloatingWhatsApp onClick={handleOrderClick} orderBtnText={t.nav.orderBtn} />
     </div>
   );
 };
