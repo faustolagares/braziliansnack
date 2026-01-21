@@ -123,16 +123,16 @@ export const MenuSection: React.FC<Props> = ({ t, lang, onOrderClick, onProductC
             </p>
           </div>
 
-          {/* Clean Toggle Switch - Wrapper para garantir centralização no mobile */}
+          {/* Clean Toggle Switch - Simplificado para garantir centralização */}
           <div className="w-full md:w-auto flex justify-center md:justify-end">
             <div 
               ref={toggleRef}
-              className={`w-full md:w-auto max-w-sm md:max-w-none mx-auto md:mx-0 scroll-reveal-fade-right ${isToggleVisible ? 'visible' : ''}`}
+              className={`max-w-sm md:max-w-none mx-auto md:mx-0 scroll-reveal-fade-right ${isToggleVisible ? 'visible' : ''}`}
             >
-              <div className="flex bg-white rounded-full p-1 border-2 border-brand-onyx shadow-[4px_4px_0px_0px_#0f0f0f] w-full md:w-auto">
+              <div className="flex bg-white rounded-full p-1 border-2 border-brand-onyx shadow-[4px_4px_0px_0px_#0f0f0f]">
                 <button
                   onClick={() => setActiveTab('savory')}
-                  className={`flex-1 md:flex-none px-4 md:px-8 py-2.5 md:py-3 rounded-full text-sm md:text-lg font-bold uppercase transition-all duration-300 whitespace-nowrap ${
+                  className={`px-6 md:px-8 py-2.5 md:py-3 rounded-full text-sm md:text-lg font-bold uppercase transition-all duration-300 whitespace-nowrap ${
                     activeTab === 'savory'
                       ? 'bg-brand-onyx text-brand-yellow'
                       : 'text-brand-onyx hover:bg-brand-porcelain'
@@ -142,7 +142,7 @@ export const MenuSection: React.FC<Props> = ({ t, lang, onOrderClick, onProductC
                 </button>
                 <button
                   onClick={() => setActiveTab('sweet')}
-                  className={`flex-1 md:flex-none px-4 md:px-8 py-2.5 md:py-3 rounded-full text-sm md:text-lg font-bold uppercase transition-all duration-300 whitespace-nowrap ${
+                  className={`px-6 md:px-8 py-2.5 md:py-3 rounded-full text-sm md:text-lg font-bold uppercase transition-all duration-300 whitespace-nowrap ${
                     activeTab === 'sweet'
                       ? 'bg-brand-onyx text-brand-yellow'
                       : 'text-brand-onyx hover:bg-brand-porcelain'
