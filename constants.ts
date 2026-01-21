@@ -55,7 +55,7 @@ export const TRANSLATIONS: Record<Language, Translation> = {
       }
     },
     calculatorCTA: {
-      title: "Não Sabe Quantos Salgados Precisa?",
+      title: "Não Sabe Quantos\nSalgados Precisa?",
       subtitle: "Nossa calculadora te ajuda a descobrir a quantidade certa para sua festa. Informe o número de pessoas e escolha seus produtos favoritos.",
       button: "Abrir Calculadora",
       features: [
@@ -173,7 +173,7 @@ export const TRANSLATIONS: Record<Language, Translation> = {
       }
     },
     calculatorCTA: {
-      title: "Not Sure How Many Snacks You Need?",
+      title: "Not Sure How Many\nSnacks You Need?",
       subtitle: "Our calculator helps you figure out the right amount for your party. Enter the number of people and choose your favorite products.",
       button: "Open Calculator",
       features: [
@@ -291,7 +291,7 @@ export const TRANSLATIONS: Record<Language, Translation> = {
       }
     },
     calculatorCTA: {
-      title: "¿No Sabes Cuántos Aperitivos Necesitas?",
+      title: "¿No Sabes Cuántos\nAperitivos Necesitas?",
       subtitle: "Nuestra calculadora te ayuda a descubrir la cantidad correcta para tu fiesta. Ingresa el número de personas y elige tus productos favoritos.",
       button: "Abrir Calculadora",
       features: [

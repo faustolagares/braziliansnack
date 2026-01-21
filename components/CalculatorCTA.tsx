@@ -76,7 +76,7 @@ export const CalculatorCTA: React.FC<Props> = ({ t, onOpenCalculator }) => {
           ref={headerRef}
           className={`mb-4 scroll-reveal-fade-up flex flex-col justify-end min-h-[200px] ${isHeaderVisible ? 'visible' : ''}`}
         >
-          <h2 className="text-5xl md:text-7xl font-display font-black text-brand-porcelain mb-0 uppercase leading-none max-w-6xl">
+          <h2 className="text-5xl md:text-7xl font-display font-black text-brand-porcelain mb-0 uppercase leading-none max-w-6xl whitespace-pre-line">
             {t.title}
           </h2>
         </div>
@@ -114,7 +114,7 @@ export const CalculatorCTA: React.FC<Props> = ({ t, onOpenCalculator }) => {
             <button
               ref={buttonRef}
               onClick={onOpenCalculator}
-              className={`bg-brand-yellow text-brand-onyx text-lg md:text-xl font-bold px-8 py-4 uppercase tracking-wider border-2 border-brand-onyx shadow-[6px_6px_0px_0px_rgba(15,15,15,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all duration-200 flex items-center gap-3 scroll-reveal-fade-up ${isButtonVisible ? 'visible' : ''}`}
+              className={`bg-brand-yellow text-brand-onyx text-lg md:text-xl font-bold px-8 py-4 uppercase tracking-wider border-2 border-brand-onyx shadow-[6px_6px_0px_0px_rgba(15,15,15,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all duration-200 flex items-center gap-3 scroll-reveal-fade-up mb-8 lg:mb-0 ${isButtonVisible ? 'visible' : ''}`}
             >
               {t.button}
               <ArrowRight size={20} strokeWidth={2.5} />
@@ -124,12 +124,12 @@ export const CalculatorCTA: React.FC<Props> = ({ t, onOpenCalculator }) => {
           {/* Imagem - Lado Direito */}
           <div 
             ref={imageRef}
-            className={`lg:col-span-2 scroll-reveal-fade-right ${isImageVisible ? 'visible' : ''} flex justify-center`}
+            className={`lg:col-span-2 scroll-reveal-fade-right ${isImageVisible ? 'visible' : ''} flex justify-center items-center`}
           >
             <img 
               src="/images/snack-calculator.png" 
               alt="Calculadora de Festa" 
-              className="w-full max-w-md h-auto object-contain"
+              className="w-full max-w-md h-auto object-contain mx-auto"
             />
           </div>
         </div>
