@@ -559,7 +559,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'enroladinho',
     category: 'savory',
-    name: { pt: 'Enroladinho', en: 'Sausage Roll', es: 'Enrolladito' },
+    name: { pt: 'Enroladinho de Salsicha', en: 'Sausage Roll', es: 'Enrolladito' },
     description: { pt: 'O favorito das crianças. Salsicha envolta em nossa massa especial e empanada.', en: 'Kids favorite. Hot dog sausage wrapped in our special dough and breaded.', es: 'El favorito de los niños. Salchicha envuelta en nuestra masa especial.' },
     image: 'https://images.unsplash.com/photo-1599321955726-e04842d6f263?q=80&w=800&auto=format&fit=crop',
     price: 60,

@@ -17,6 +17,7 @@ interface SelectedProduct {
 
 export const PartyCalculator: React.FC<Props> = ({ t, lang }) => {
   const [people, setPeople] = useState<number>(20);
+  const [hasFood, setHasFood] = useState<boolean>(true); // true = terá comida na festa
   const [selectedProducts, setSelectedProducts] = useState<Map<string, SelectedProduct>>(new Map());
   const headerRef = useRef<HTMLDivElement>(null);
   const { isVisible: isHeaderVisible, elementRef: headerElementRef } = useScrollReveal({ delay: 200 });
@@ -27,9 +28,22 @@ export const PartyCalculator: React.FC<Props> = ({ t, lang }) => {
     }
   }, [headerElementRef]);
 
-  // Calcular quantidades recomendadas
-  const recommendedSavory = Math.ceil(people * 4); // 4 salgados por pessoa
-  const recommendedSweet = Math.ceil(people * 2.5); // 2.5 doces por pessoa
+  // Calcular quantidades recomendadas baseado em ter comida ou não
+  const recommendedSavory = useMemo(() => {
+    if (hasFood) {
+      return Math.ceil(people * 5); // 5 salgados por pessoa quando tem comida
+    } else {
+      return Math.ceil(people * 12); // 12 salgados por pessoa quando não tem comida
+    }
+  }, [people, hasFood]);
+
+  const recommendedSweet = useMemo(() => {
+    if (hasFood) {
+      return Math.ceil(people * 3); // 3 doces por pessoa quando tem comida
+    } else {
+      return Math.ceil(people * 4.5); // 4-5 doces por pessoa quando não tem comida (média 4.5)
+    }
+  }, [people, hasFood]);
 
   // Separar produtos
   const savoryProducts = PRODUCTS.filter(p => p.category === 'savory');
@@ -63,13 +77,17 @@ export const PartyCalculator: React.FC<Props> = ({ t, lang }) => {
     if (newSelected.has(productId)) {
       newSelected.delete(productId);
     } else {
-      const recommendedQty = product.category === 'savory' ? recommendedSavory : recommendedSweet;
-      const bestPackage = findBestPackage(product, recommendedQty);
+      // Quantidade inicial 0 - usuário vai inserir
+      const initialQuantity = 0;
+      // Usar o menor pacote disponível como padrão
+      const defaultPackage = product.pricingTiers && product.pricingTiers.length > 0 
+        ? product.pricingTiers[0] // Menor pacote
+        : null;
       
       newSelected.set(productId, {
         product,
-        quantity: recommendedQty,
-        packageTier: bestPackage
+        quantity: initialQuantity,
+        packageTier: defaultPackage
       });
     }
 
@@ -81,11 +99,22 @@ export const PartyCalculator: React.FC<Props> = ({ t, lang }) => {
     const newSelected = new Map(selectedProducts);
     const selected = newSelected.get(productId);
     
-    if (selected && quantity > 0) {
-      const bestPackage = findBestPackage(selected.product, quantity);
+    if (selected) {
+      let bestPackage = selected.packageTier;
+      
+      // Se quantidade > 0, calcular melhor pacote. Se 0, manter pacote padrão
+      if (quantity > 0) {
+        bestPackage = findBestPackage(selected.product, quantity);
+      } else {
+        // Se quantidade é 0, usar o menor pacote disponível
+        bestPackage = selected.product.pricingTiers && selected.product.pricingTiers.length > 0
+          ? selected.product.pricingTiers[0]
+          : null;
+      }
+      
       newSelected.set(productId, {
         ...selected,
-        quantity,
+        quantity: Math.max(0, quantity), // Permitir 0
         packageTier: bestPackage
       });
       setSelectedProducts(newSelected);
@@ -122,30 +151,86 @@ export const PartyCalculator: React.FC<Props> = ({ t, lang }) => {
 
   // Gerar mensagem WhatsApp
   const generateWhatsAppMessage = () => {
-    const savoryList: string[] = [];
-    const sweetList: string[] = [];
+    const savoryItems: string[] = [];
+    const sweetItems: string[] = [];
 
     selectedProducts.forEach((selected) => {
-      if (!selected.packageTier) return;
+      // Só incluir produtos com quantidade > 0
+      if (selected.quantity === 0 || !selected.packageTier) return;
       
       const packagesNeeded = Math.ceil(selected.quantity / selected.packageTier.quantity);
-      const line = `- ${selected.product.name[lang]}: ${selected.quantity} unidades (${packagesNeeded}x Pacote ${selected.packageTier.quantity}un - $${selected.packageTier.price * packagesNeeded})`;
+      const itemPrice = packagesNeeded * selected.packageTier.price;
+      
+      const line = `${selected.product.name[lang]}: ${selected.quantity} unidades (${packagesNeeded}x ${selected.packageTier.quantity}un) - $${itemPrice.toFixed(2)}`;
       
       if (selected.product.category === 'savory') {
-        savoryList.push(line);
+        savoryItems.push(line);
       } else {
-        sweetList.push(line);
+        sweetItems.push(line);
       }
     });
 
-    const savoryText = savoryList.length > 0 ? savoryList.join('\n') : (lang === 'pt' ? 'Nenhum' : lang === 'en' ? 'None' : 'Ninguno');
-    const sweetText = sweetList.length > 0 ? sweetList.join('\n') : (lang === 'pt' ? 'Nenhum' : lang === 'en' ? 'None' : 'Ninguno');
+    // Construir mensagem organizada
+    let message = '';
     
-    let message = t.orderMessage
-      .replace('{people}', people.toString())
-      .replace('{savoryList}', savoryText)
-      .replace('{sweetList}', sweetText)
-      .replace('{total}', total.toFixed(2));
+    if (lang === 'pt') {
+      message = `Olá! Gostaria de fazer um pedido:\n\n`;
+      message += `📋 PEDIDO PARA FESTA\n`;
+      message += `👥 Número de pessoas: ${people}\n\n`;
+      
+      if (savoryItems.length > 0) {
+        message += `🍴 SALGADOS:\n`;
+        savoryItems.forEach(item => message += `${item}\n`);
+        message += `\n`;
+      }
+      
+      if (sweetItems.length > 0) {
+        message += `🍰 DOCES:\n`;
+        sweetItems.forEach(item => message += `${item}\n`);
+        message += `\n`;
+      }
+      
+      message += `💰 TOTAL: $${total.toFixed(2)}\n\n`;
+      message += `[Produtos podem ser congelados ou prontos]`;
+    } else if (lang === 'en') {
+      message = `Hello! I would like to place an order:\n\n`;
+      message += `📋 PARTY ORDER\n`;
+      message += `👥 Number of people: ${people}\n\n`;
+      
+      if (savoryItems.length > 0) {
+        message += `🍴 SAVORY SNACKS:\n`;
+        savoryItems.forEach(item => message += `${item}\n`);
+        message += `\n`;
+      }
+      
+      if (sweetItems.length > 0) {
+        message += `🍰 SWEETS:\n`;
+        sweetItems.forEach(item => message += `${item}\n`);
+        message += `\n`;
+      }
+      
+      message += `💰 TOTAL: $${total.toFixed(2)}\n\n`;
+      message += `[Products can be frozen or ready]`;
+    } else {
+      message = `¡Hola! Me gustaría hacer un pedido:\n\n`;
+      message += `📋 PEDIDO PARA FIESTA\n`;
+      message += `👥 Número de personas: ${people}\n\n`;
+      
+      if (savoryItems.length > 0) {
+        message += `🍴 SALADOS:\n`;
+        savoryItems.forEach(item => message += `${item}\n`);
+        message += `\n`;
+      }
+      
+      if (sweetItems.length > 0) {
+        message += `🍰 DULCES:\n`;
+        sweetItems.forEach(item => message += `${item}\n`);
+        message += `\n`;
+      }
+      
+      message += `💰 TOTAL: $${total.toFixed(2)}\n\n`;
+      message += `[Productos pueden ser congelados o listos]`;
+    }
 
     return message;
   };
@@ -165,6 +250,7 @@ export const PartyCalculator: React.FC<Props> = ({ t, lang }) => {
   const handleReset = () => {
     setSelectedProducts(new Map());
     setPeople(20);
+    setHasFood(true); // Reset para true (terá comida)
   };
 
   return (
@@ -192,39 +278,82 @@ export const PartyCalculator: React.FC<Props> = ({ t, lang }) => {
 
             {/* Input de Pessoas com Recomendações */}
             <div className="bg-white border-2 border-brand-onyx p-6 shadow-[4px_4px_0px_0px_#0f0f0f] max-w-3xl">
-              <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
-                <div className="flex-1 w-full md:w-auto">
-                  <label className="flex items-center gap-2 mb-3 font-bold text-brand-onyx uppercase text-sm">
-                    <Users size={20} />
-                    {t.peopleLabel}
-                  </label>
-                  <input
-                    type="number"
-                    min="1"
-                    value={people}
-                    onChange={(e) => setPeople(Math.max(1, parseInt(e.target.value) || 1))}
-                    className="w-full px-4 py-3 border-2 border-brand-onyx font-bold text-2xl text-brand-onyx bg-brand-porcelain focus:outline-none focus:ring-2 focus:ring-brand-sea"
-                  />
+              <div className="flex flex-col gap-6">
+                {/* Input de Pessoas */}
+                <div className="flex flex-col md:flex-row gap-3">
+                  <div className="flex-1 w-full md:w-auto">
+                    <label className="flex items-center gap-2 mb-3 font-bold text-brand-onyx uppercase text-sm">
+                      <Users size={20} />
+                      {t.peopleLabel}
+                    </label>
+                    <input
+                      type="number"
+                      min="1"
+                      value={people}
+                      onChange={(e) => setPeople(Math.max(1, parseInt(e.target.value) || 1))}
+                      className="w-32 px-4 py-3 border-2 border-brand-onyx font-bold text-2xl text-brand-onyx bg-brand-porcelain focus:outline-none focus:ring-2 focus:ring-brand-sea"
+                    />
+                  </div>
+                  
+                  {/* Recomendações ao lado - alinhadas ao centro do input */}
+                  <div className="flex gap-8 md:gap-12 items-center">
+                    <div className="text-center">
+                      <div className="text-5xl md:text-6xl font-display font-black text-brand-sea mb-2">
+                        {recommendedSavory}
+                      </div>
+                      <div className="text-sm font-bold uppercase text-brand-onyx/70">
+                        {t.recommendedSavory.split(' ')[0]}
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-5xl md:text-6xl font-display font-black text-brand-sea mb-2">
+                        {recommendedSweet}
+                      </div>
+                      <div className="text-sm font-bold uppercase text-brand-onyx/70">
+                        {t.recommendedSweet.split(' ')[0]}
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                
-                {/* Recomendações ao lado */}
-                <div className="flex gap-8 md:gap-12">
-                  <div className="text-center">
-                    <div className="text-4xl font-display font-black text-brand-sea mb-1">
-                      {recommendedSavory}
+
+                {/* Toggle: Terá comida na festa? */}
+                <div className="pt-4 border-t-2 border-brand-onyx">
+                  <label className="flex items-center gap-3 cursor-pointer group">
+                    <div className="relative">
+                      <input
+                        type="checkbox"
+                        checked={hasFood}
+                        onChange={(e) => setHasFood(e.target.checked)}
+                        className="sr-only"
+                      />
+                      <div className={`w-14 h-8 border-2 border-brand-onyx transition-all duration-200 ${
+                        hasFood ? 'bg-brand-sea' : 'bg-brand-porcelain'
+                      }`}>
+                        <div className={`w-6 h-6 bg-brand-onyx border-2 border-brand-onyx transition-transform duration-200 mt-0.5 ${
+                          hasFood ? 'translate-x-6' : 'translate-x-0.5'
+                        }`}></div>
+                      </div>
                     </div>
-                    <div className="text-xs font-bold uppercase text-brand-onyx/70">
-                      {t.recommendedSavory.split(' ')[0]}
+                    <div className="flex-1">
+                      <span className="font-bold text-sm uppercase text-brand-onyx">
+                        {lang === 'pt' ? 'Terá comida na festa?' : lang === 'en' ? 'Will there be food at the party?' : '¿Habrá comida en la fiesta?'}
+                      </span>
+                      <p className="text-xs text-brand-onyx/70 mt-1">
+                        {lang === 'pt' 
+                          ? hasFood 
+                            ? 'Recomendação: 5 salgados e 3 doces por pessoa' 
+                            : 'Recomendação: 12 salgados e 4-5 doces por pessoa'
+                          : lang === 'en'
+                          ? hasFood
+                            ? 'Recommendation: 5 savory and 3 sweets per person'
+                            : 'Recommendation: 12 savory and 4-5 sweets per person'
+                          : hasFood
+                          ? 'Recomendación: 5 salados y 3 dulces por persona'
+                          : 'Recomendación: 12 salados y 4-5 dulces por persona'
+                        }
+                      </p>
                     </div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-4xl font-display font-black text-brand-sea mb-1">
-                      {recommendedSweet}
-                    </div>
-                    <div className="text-xs font-bold uppercase text-brand-onyx/70">
-                      {t.recommendedSweet.split(' ')[0]}
-                    </div>
-                  </div>
+                  </label>
                 </div>
               </div>
             </div>
@@ -240,7 +369,7 @@ export const PartyCalculator: React.FC<Props> = ({ t, lang }) => {
             {/* Salgados */}
             <div>
               <h3 className="text-3xl font-display font-black text-brand-onyx uppercase mb-6">
-                🍴 {t.recommendedSavory}
+                {t.recommendedSavory}
               </h3>
               <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3">
                 {savoryProducts.map((product) => {
@@ -269,9 +398,53 @@ export const PartyCalculator: React.FC<Props> = ({ t, lang }) => {
                         )}
                       </div>
                       <div className="p-2 border-t-2 border-brand-onyx">
-                        <h4 className="font-display font-bold text-xs uppercase text-brand-onyx leading-tight">
+                        <h4 className="font-display font-bold text-xs uppercase text-brand-onyx leading-tight mb-2">
                           {product.name[lang]}
                         </h4>
+                        {isSelected && (
+                          <div className="mt-2 pt-2 border-t border-brand-onyx/20">
+                            <label className="block text-[10px] font-bold text-brand-onyx uppercase mb-1">
+                              {t.quantity}
+                            </label>
+                            <div className="flex items-center gap-1">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  const current = selectedProducts.get(product.id);
+                                  if (current) {
+                                    updateQuantity(product.id, Math.max(1, current.quantity - 1));
+                                  }
+                                }}
+                                className="w-6 h-6 border border-brand-onyx flex items-center justify-center hover:bg-brand-onyx hover:text-brand-yellow transition-colors"
+                              >
+                                <Minus size={10} strokeWidth={3} />
+                              </button>
+                              <input
+                                type="number"
+                                min="0"
+                                value={selectedProducts.get(product.id)?.quantity ?? 0}
+                                onChange={(e) => {
+                                  const qty = Math.max(0, parseInt(e.target.value) || 0);
+                                  updateQuantity(product.id, qty);
+                                }}
+                                onClick={(e) => e.stopPropagation()}
+                                className="w-12 px-1 py-1 border border-brand-onyx font-bold text-xs text-brand-onyx text-center bg-brand-porcelain focus:outline-none"
+                              />
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  const current = selectedProducts.get(product.id);
+                                  if (current) {
+                                    updateQuantity(product.id, current.quantity + 1);
+                                  }
+                                }}
+                                className="w-6 h-6 border border-brand-onyx flex items-center justify-center hover:bg-brand-onyx hover:text-brand-yellow transition-colors"
+                              >
+                                <Plus size={10} strokeWidth={3} />
+                              </button>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                   );
@@ -282,7 +455,7 @@ export const PartyCalculator: React.FC<Props> = ({ t, lang }) => {
             {/* Doces */}
             <div>
               <h3 className="text-3xl font-display font-black text-brand-onyx uppercase mb-6">
-                🍰 {t.recommendedSweet}
+                {t.recommendedSweet}
               </h3>
               <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3">
                 {sweetProducts.map((product) => {
@@ -311,9 +484,53 @@ export const PartyCalculator: React.FC<Props> = ({ t, lang }) => {
                         )}
                       </div>
                       <div className="p-2 border-t-2 border-brand-onyx">
-                        <h4 className="font-display font-bold text-xs uppercase text-brand-onyx leading-tight">
+                        <h4 className="font-display font-bold text-xs uppercase text-brand-onyx leading-tight mb-2">
                           {product.name[lang]}
                         </h4>
+                        {isSelected && (
+                          <div className="mt-2 pt-2 border-t border-brand-onyx/20">
+                            <label className="block text-[10px] font-bold text-brand-onyx uppercase mb-1">
+                              {t.quantity}
+                            </label>
+                            <div className="flex items-center gap-1">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  const current = selectedProducts.get(product.id);
+                                  if (current) {
+                                    updateQuantity(product.id, Math.max(1, current.quantity - 1));
+                                  }
+                                }}
+                                className="w-6 h-6 border border-brand-onyx flex items-center justify-center hover:bg-brand-onyx hover:text-brand-yellow transition-colors"
+                              >
+                                <Minus size={10} strokeWidth={3} />
+                              </button>
+                              <input
+                                type="number"
+                                min="0"
+                                value={selectedProducts.get(product.id)?.quantity ?? 0}
+                                onChange={(e) => {
+                                  const qty = Math.max(0, parseInt(e.target.value) || 0);
+                                  updateQuantity(product.id, qty);
+                                }}
+                                onClick={(e) => e.stopPropagation()}
+                                className="w-12 px-1 py-1 border border-brand-onyx font-bold text-xs text-brand-onyx text-center bg-brand-porcelain focus:outline-none"
+                              />
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  const current = selectedProducts.get(product.id);
+                                  if (current) {
+                                    updateQuantity(product.id, current.quantity + 1);
+                                  }
+                                }}
+                                className="w-6 h-6 border border-brand-onyx flex items-center justify-center hover:bg-brand-onyx hover:text-brand-yellow transition-colors"
+                              >
+                                <Plus size={10} strokeWidth={3} />
+                              </button>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                   );
@@ -343,80 +560,31 @@ export const PartyCalculator: React.FC<Props> = ({ t, lang }) => {
                 </div>
               ) : (
                 <div className="space-y-4 mb-6">
-                  {Array.from(selectedProducts.values()).map((selected) => (
+                  {Array.from(selectedProducts.values())
+                    .filter(selected => selected.quantity > 0)
+                    .map((selected) => (
                     <div key={selected.product.id} className="border-2 border-brand-onyx p-4 bg-brand-porcelain">
-                      <div className="flex justify-between items-start mb-3">
-                        <h4 className="font-display font-bold text-sm uppercase text-brand-onyx flex-1 leading-tight">
-                          {selected.product.name[lang]}
-                        </h4>
+                      <div className="flex justify-between items-center">
+                        <div className="flex-1">
+                          <h4 className="font-display font-bold text-sm uppercase text-brand-onyx leading-tight mb-1">
+                            {selected.product.name[lang]}
+                          </h4>
+                          <div className="flex items-center gap-2 text-sm font-bold">
+                            <span className="text-brand-sea">{selected.quantity}x</span>
+                            {selected.packageTier && (
+                              <>
+                                <span className="text-brand-onyx/40">•</span>
+                                <span className="text-brand-sea">${(Math.ceil(selected.quantity / selected.packageTier.quantity) * selected.packageTier.price).toFixed(2)}</span>
+                              </>
+                            )}
+                          </div>
+                        </div>
                         <button 
                           onClick={() => toggleProduct(selected.product)}
-                          className="text-brand-onyx hover:text-brand-sea transition-colors ml-2"
+                          className="text-brand-onyx hover:text-brand-sea transition-colors ml-3 flex-shrink-0"
                         >
                           <X size={18} strokeWidth={3} />
                         </button>
-                      </div>
-                      
-                      <div className="space-y-3">
-                        <div>
-                          <label className="block text-xs font-bold text-brand-onyx uppercase mb-1">
-                            {t.quantity}
-                          </label>
-                          <div className="flex items-center gap-2">
-                            <button
-                              onClick={() => updateQuantity(selected.product.id, Math.max(1, selected.quantity - 1))}
-                              className="w-8 h-8 border-2 border-brand-onyx flex items-center justify-center hover:bg-brand-onyx hover:text-brand-yellow transition-colors"
-                            >
-                              <Minus size={14} strokeWidth={3} />
-                            </button>
-                            <input
-                              type="number"
-                              min="1"
-                              value={selected.quantity}
-                              onChange={(e) => updateQuantity(selected.product.id, Math.max(1, parseInt(e.target.value) || 1))}
-                              className="flex-1 px-3 py-2 border-2 border-brand-onyx font-bold text-brand-onyx text-center bg-brand-porcelain focus:outline-none"
-                            />
-                            <button
-                              onClick={() => updateQuantity(selected.product.id, selected.quantity + 1)}
-                              className="w-8 h-8 border-2 border-brand-onyx flex items-center justify-center hover:bg-brand-onyx hover:text-brand-yellow transition-colors"
-                            >
-                              <Plus size={14} strokeWidth={3} />
-                            </button>
-                          </div>
-                        </div>
-                        
-                        {selected.product.pricingTiers && selected.product.pricingTiers.length > 0 && (
-                          <div>
-                            <label className="block text-xs font-bold text-brand-onyx uppercase mb-1">
-                              {t.package}
-                            </label>
-                            <select 
-                              value={selected.packageTier?.quantity || ''}
-                              onChange={(e) => {
-                                const tier = selected.product.pricingTiers?.find(t => t.quantity === parseInt(e.target.value));
-                                if (tier) updatePackage(selected.product.id, tier);
-                              }}
-                              className="w-full px-3 py-2 border-2 border-brand-onyx font-bold text-sm text-brand-onyx bg-brand-porcelain focus:outline-none"
-                            >
-                              {selected.product.pricingTiers.map((tier) => (
-                                <option key={tier.quantity} value={tier.quantity}>
-                                  {tier.quantity} un - ${tier.price}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                        )}
-                        
-                        {selected.packageTier && (
-                          <div className="pt-2 border-t border-brand-onyx/20">
-                            <div className="text-xs text-brand-onyx/60 mb-1">
-                              {Math.ceil(selected.quantity / selected.packageTier.quantity)}x pacote{Math.ceil(selected.quantity / selected.packageTier.quantity) > 1 ? 's' : ''}
-                            </div>
-                            <div className="text-lg font-display font-black text-brand-sea">
-                              ${(Math.ceil(selected.quantity / selected.packageTier.quantity) * selected.packageTier.price).toFixed(2)}
-                            </div>
-                          </div>
-                        )}
                       </div>
                     </div>
                   ))}
