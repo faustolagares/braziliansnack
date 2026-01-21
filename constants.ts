@@ -55,8 +55,8 @@ export const TRANSLATIONS: Record<Language, Translation> = {
       }
     },
     calculatorCTA: {
-      title: "Calcule Seu Pedido",
-      subtitle: "Use nossa calculadora para descobrir quantos salgados e doces você precisa para sua festa",
+      title: "Não Sabe Quantos Salgados Precisa?",
+      subtitle: "Nossa calculadora te ajuda a descobrir a quantidade certa para sua festa. Informe o número de pessoas e escolha seus produtos favoritos.",
       button: "Abrir Calculadora",
       features: [
         "Cálculo automático por número de pessoas",
@@ -173,8 +173,8 @@ export const TRANSLATIONS: Record<Language, Translation> = {
       }
     },
     calculatorCTA: {
-      title: "Calculate Your Order",
-      subtitle: "Use our calculator to find out how many snacks and sweets you need for your party",
+      title: "Not Sure How Many Snacks You Need?",
+      subtitle: "Our calculator helps you figure out the right amount for your party. Enter the number of people and choose your favorite products.",
       button: "Open Calculator",
       features: [
         "Automatic calculation by number of people",
@@ -291,8 +291,8 @@ export const TRANSLATIONS: Record<Language, Translation> = {
       }
     },
     calculatorCTA: {
-      title: "Calcula Tu Pedido",
-      subtitle: "Usa nuestra calculadora para descubrir cuántos aperitivos y dulces necesitas para tu fiesta",
+      title: "¿No Sabes Cuántos Aperitivos Necesitas?",
+      subtitle: "Nuestra calculadora te ayuda a descubrir la cantidad correcta para tu fiesta. Ingresa el número de personas y elige tus productos favoritos.",
       button: "Abrir Calculadora",
       features: [
         "Cálculo automático por número de personas",

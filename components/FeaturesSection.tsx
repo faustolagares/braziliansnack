@@ -1,5 +1,5 @@
 
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Translation } from '../types';
 import { Truck, Snowflake, Clock, Package } from 'lucide-react';
 import { useScrollReveal } from '../hooks/useScrollReveal';
@@ -10,7 +10,9 @@ interface Props {
 
 export const FeaturesSection: React.FC<Props> = ({ t }) => {
   const headerRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<HTMLDivElement>(null);
   const { isVisible: isHeaderVisible, elementRef: headerElementRef } = useScrollReveal({ delay: 200 });
+  const [visibleCards, setVisibleCards] = useState<Set<number>>(new Set());
 
   React.useEffect(() => {
     if (headerRef.current) {
@@ -18,34 +20,77 @@ export const FeaturesSection: React.FC<Props> = ({ t }) => {
     }
   }, [headerElementRef]);
 
+  useEffect(() => {
+    if (!cardsRef.current) return;
+
+    const cards = cardsRef.current.querySelectorAll('[data-index]');
+    
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = parseInt(entry.target.getAttribute('data-index') || '0', 10);
+            setTimeout(() => {
+              setVisibleCards((prev) => new Set([...prev, index]));
+            }, index * 100);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px',
+      }
+    );
+
+    cards.forEach((card) => observer.observe(card));
+
+    const fallbackTimeout = setTimeout(() => {
+      cards.forEach((card) => {
+        const index = parseInt(card.getAttribute('data-index') || '0', 10);
+        setVisibleCards((prev) => {
+          if (!prev.has(index)) {
+            return new Set([...prev, index]);
+          }
+          return prev;
+        });
+      });
+    }, 2000);
+
+    return () => {
+      clearTimeout(fallbackTimeout);
+      cards.forEach((card) => observer.unobserve(card));
+    };
+  }, []);
+
   const features = [
     {
-      icon: <Truck size={32} strokeWidth={2} />,
+      icon: <Truck size={48} strokeWidth={2} />,
       title: t.delivery.title,
       desc: t.delivery.desc,
       bg: 'bg-brand-yellow',
       text: 'text-brand-onyx'
     },
     {
-      icon: <Snowflake size={32} strokeWidth={2} />,
-      title: t.frozen.title,
-      desc: t.frozen.desc,
+      icon: <Package size={48} strokeWidth={2} />,
+      title: t.packages.title,
+      desc: t.packages.desc,
       bg: 'bg-brand-sea',
       text: 'text-brand-porcelain'
     },
     {
-      icon: <Clock size={32} strokeWidth={2} />,
+      icon: <Snowflake size={48} strokeWidth={2} />,
+      title: t.frozen.title,
+      desc: t.frozen.desc,
+      bg: 'bg-brand-blue',
+      text: 'text-brand-porcelain'
+    },
+    {
+      icon: <Clock size={48} strokeWidth={2} />,
       title: t.madeToOrder.title,
       desc: t.madeToOrder.desc,
       bg: 'bg-brand-porcelain',
       text: 'text-brand-onyx'
-    },
-    {
-      icon: <Package size={32} strokeWidth={2} />,
-      title: t.packages.title,
-      desc: t.packages.desc,
-      bg: 'bg-brand-jungle',
-      text: 'text-brand-porcelain'
     }
   ];
 
@@ -75,12 +120,14 @@ export const FeaturesSection: React.FC<Props> = ({ t }) => {
         </div>
 
         {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {features.map((feature, index) => (
             <div
               key={index}
               data-index={index}
-              className={`${feature.bg} border-2 border-brand-onyx p-6 md:p-8 shadow-[6px_6px_0px_0px_#0f0f0f] hover:translate-y-1 hover:shadow-none transition-all duration-200 scroll-reveal-fade-up visible`}
+              className={`${feature.bg} border-2 border-brand-onyx p-6 md:p-8 shadow-[6px_6px_0px_0px_#0f0f0f] hover:translate-y-1 hover:shadow-none transition-all duration-200 scroll-reveal-fade-up ${
+                visibleCards.has(index) ? 'visible' : ''
+              }`}
               style={{ animationDelay: `${index * 100}ms`, animationFillMode: 'both' }}
             >
               <div className={`${feature.text} mb-4`}>

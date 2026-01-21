@@ -29,6 +29,7 @@ export default {
           dark: '#0e6b3d',
           sea: '#1f8754',
           jungle: '#2fa36b',
+          blue: '#1a8fc7',
           yellow: '#ffc72c',
           mustard: '#ffd768',
           custard: '#ffe7a3',
