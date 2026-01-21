@@ -74,9 +74,9 @@ export const CalculatorCTA: React.FC<Props> = ({ t, onOpenCalculator }) => {
         {/* Header - Fora das colunas, ocupa toda a largura */}
         <div 
           ref={headerRef}
-          className={`mb-12 scroll-reveal-fade-up ${isHeaderVisible ? 'visible' : ''}`}
+          className={`mb-4 scroll-reveal-fade-up flex flex-col justify-end min-h-[200px] ${isHeaderVisible ? 'visible' : ''}`}
         >
-          <h2 className="text-6xl md:text-8xl font-display font-black text-brand-porcelain mb-4 uppercase leading-none max-w-6xl">
+          <h2 className="text-5xl md:text-7xl font-display font-black text-brand-porcelain mb-0 uppercase leading-none max-w-6xl">
             {t.title}
           </h2>
         </div>
