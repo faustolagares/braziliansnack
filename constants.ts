@@ -66,7 +66,11 @@ export const TRANSLATIONS: Record<Language, Translation> = {
       location: "Delanco, New Jersey",
       madeIn: "Feito com amor em NJ",
       openDays: "Seg - Sáb: 9am - 6pm",
-      closedDays: "Domingo: Fechado"
+      closedDays: "Domingo: Fechado",
+      navLinks: ['Início', 'Cardápio', 'Sobre', 'Contato'],
+      phoneLabel: 'Telefone / WhatsApp',
+      locationLabel: 'Localização',
+      deliveryTitle: 'Entregamos em'
     },
     common: {
       whatsAppMessage: "Olá! Gostaria de fazer um pedido no Brazilian's Snack."
@@ -129,7 +133,11 @@ export const TRANSLATIONS: Record<Language, Translation> = {
       location: "Delanco, New Jersey",
       madeIn: "Made with love in NJ",
       openDays: "Mon - Sat: 9am - 6pm",
-      closedDays: "Sunday: Closed"
+      closedDays: "Sunday: Closed",
+      navLinks: ['Home', 'Menu', 'About', 'Contact'],
+      phoneLabel: 'Phone / WhatsApp',
+      locationLabel: 'Location',
+      deliveryTitle: 'We deliver to'
     },
     common: {
       whatsAppMessage: "Hello! I would like to place an order at Brazilian's Snack."
@@ -192,7 +200,11 @@ export const TRANSLATIONS: Record<Language, Translation> = {
       location: "Delanco, New Jersey",
       madeIn: "Hecho con amor en NJ",
       openDays: "Lun - Sáb: 9am - 6pm",
-      closedDays: "Domingo: Cerrado"
+      closedDays: "Domingo: Cerrado",
+      navLinks: ['Inicio', 'Menú', 'Nosotros', 'Contacto'],
+      phoneLabel: 'Teléfono / WhatsApp',
+      locationLabel: 'Ubicación',
+      deliveryTitle: 'Entregamos en'
     },
     common: {
       whatsAppMessage: "¡Hola! Me gustaría hacer un pedido en Brazilian's Snack."

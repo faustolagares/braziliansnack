@@ -110,6 +110,10 @@ export interface Translation {
     madeIn: string;
     openDays: string;
     closedDays: string;
+    navLinks: string[];
+    phoneLabel: string;
+    locationLabel: string;
+    deliveryTitle: string;
   };
   common: {
     whatsAppMessage: string;

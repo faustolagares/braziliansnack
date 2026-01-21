@@ -116,7 +116,7 @@ const App: React.FC = () => {
         )}
       </main>
 
-      <Footer t={t.footer} />
+      <Footer t={t.footer} lang={lang} />
       
       <FloatingWhatsApp onClick={handleOrderClick} />
     </div>

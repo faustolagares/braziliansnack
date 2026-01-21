@@ -1,14 +1,15 @@
 
 import React from 'react';
-import { Translation } from '../types';
+import { Translation, Language } from '../types';
 import { PHONE_NUMBERS } from '../constants';
 import { Instagram, Facebook, MapPin, Phone, Clock, ArrowUpRight } from 'lucide-react';
 
 interface Props {
   t: Translation['footer'];
+  lang: Language;
 }
 
-export const Footer: React.FC<Props> = ({ t }) => {
+export const Footer: React.FC<Props> = ({ t, lang }) => {
   return (
     <footer id="footer" className="bg-[#050505] text-brand-porcelain pt-32 pb-0 border-t-8 border-brand-yellow relative overflow-hidden">
       
@@ -55,7 +56,7 @@ export const Footer: React.FC<Props> = ({ t }) => {
               {t.linksTitle}
             </h4>
             <ul className="space-y-4">
-              {['Home', 'Menu', 'Sobre', 'Contato'].map((item) => (
+              {t.navLinks.map((item) => (
                 <li key={item}>
                   <a href="#" className="text-xl text-brand-porcelain/70 hover:text-brand-yellow hover:pl-2 transition-all duration-200 flex items-center gap-2 group">
                     {item} <ArrowUpRight size={16} className="opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -88,7 +89,7 @@ export const Footer: React.FC<Props> = ({ t }) => {
                   <Phone size={20} />
                 </div>
                 <div>
-                  <p className="text-xs text-brand-porcelain/40 uppercase font-bold mb-1">Telefone / WhatsApp</p>
+                  <p className="text-xs text-brand-porcelain/40 uppercase font-bold mb-1">{t.phoneLabel}</p>
                   <p className="text-xl font-medium">{PHONE_NUMBERS[0]}</p>
                   <p className="text-xl font-medium">{PHONE_NUMBERS[1]}</p>
                 </div>
@@ -98,7 +99,7 @@ export const Footer: React.FC<Props> = ({ t }) => {
                    <MapPin size={20} />
                 </div>
                 <div>
-                   <p className="text-xs text-brand-porcelain/40 uppercase font-bold mb-1">Localização</p>
+                   <p className="text-xs text-brand-porcelain/40 uppercase font-bold mb-1">{t.locationLabel}</p>
                    <p className="text-lg leading-snug text-brand-porcelain/80">{t.location}</p>
                    <span className="text-xs text-brand-jungle bg-brand-jungle/10 px-2 py-0.5 rounded mt-2 inline-block">Delivery Only</span>
                 </div>
@@ -109,7 +110,7 @@ export const Footer: React.FC<Props> = ({ t }) => {
            {/* Column 4: Delivery Areas */}
            <div>
             <h4 className="font-display font-bold text-lg text-brand-yellow mb-8 uppercase tracking-wider flex items-center gap-2">
-              Entregamos em
+              {t.deliveryTitle}
             </h4>
             <div className="flex flex-wrap gap-2">
               {['Delanco', 'Riverside', 'Delran', 'Cinnaminson', 'Moorestown', 'Palmyra', 'Riverton'].map(city => (

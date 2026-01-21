@@ -110,7 +110,7 @@ export const MenuSection: React.FC<Props> = ({ t, lang, onOrderClick, onProductC
       <div className="container mx-auto px-4 md:px-8 relative z-10">
         
         {/* Header Area */}
-        <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-8">
+        <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-16 gap-8">
           <div 
             ref={headerRef}
             className={`max-w-2xl scroll-reveal-fade-up ${isHeaderVisible ? 'visible' : ''}`}
@@ -126,28 +126,30 @@ export const MenuSection: React.FC<Props> = ({ t, lang, onOrderClick, onProductC
           {/* Clean Toggle Switch */}
           <div 
             ref={toggleRef}
-            className={`flex bg-white rounded-full p-1 border-2 border-brand-onyx shadow-[4px_4px_0px_0px_#0f0f0f] scroll-reveal-fade-right ${isToggleVisible ? 'visible' : ''}`}
+            className={`w-full md:w-auto flex justify-center md:justify-end scroll-reveal-fade-right ${isToggleVisible ? 'visible' : ''}`}
           >
-            <button
-              onClick={() => setActiveTab('savory')}
-              className={`px-8 py-3 rounded-full text-lg font-bold uppercase transition-all duration-300 ${
-                activeTab === 'savory'
-                  ? 'bg-brand-onyx text-brand-yellow'
-                  : 'text-brand-onyx hover:bg-brand-porcelain'
-              }`}
-            >
-              {t.savoryTab}
-            </button>
-            <button
-              onClick={() => setActiveTab('sweet')}
-              className={`px-8 py-3 rounded-full text-lg font-bold uppercase transition-all duration-300 ${
-                activeTab === 'sweet'
-                  ? 'bg-brand-onyx text-brand-yellow'
-                  : 'text-brand-onyx hover:bg-brand-porcelain'
-              }`}
-            >
-              {t.sweetTab}
-            </button>
+            <div className="flex bg-white rounded-full p-1 border-2 border-brand-onyx shadow-[4px_4px_0px_0px_#0f0f0f] w-full md:w-auto max-w-sm md:max-w-none">
+              <button
+                onClick={() => setActiveTab('savory')}
+                className={`flex-1 md:flex-none px-4 md:px-8 py-2.5 md:py-3 rounded-full text-sm md:text-lg font-bold uppercase transition-all duration-300 whitespace-nowrap ${
+                  activeTab === 'savory'
+                    ? 'bg-brand-onyx text-brand-yellow'
+                    : 'text-brand-onyx hover:bg-brand-porcelain'
+                }`}
+              >
+                {t.savoryTab}
+              </button>
+              <button
+                onClick={() => setActiveTab('sweet')}
+                className={`flex-1 md:flex-none px-4 md:px-8 py-2.5 md:py-3 rounded-full text-sm md:text-lg font-bold uppercase transition-all duration-300 whitespace-nowrap ${
+                  activeTab === 'sweet'
+                    ? 'bg-brand-onyx text-brand-yellow'
+                    : 'text-brand-onyx hover:bg-brand-porcelain'
+                }`}
+              >
+                {t.sweetTab}
+              </button>
+            </div>
           </div>
         </div>
 
