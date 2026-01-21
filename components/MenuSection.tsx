@@ -21,7 +21,11 @@ export const MenuSection: React.FC<Props> = ({ t, lang, onOrderClick, onProductC
   const headerRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
 
-  const { isVisible: isHeaderVisible, elementRef: headerElementRef } = useScrollReveal({ delay: 200 });
+  const { isVisible: isHeaderVisible, elementRef: headerElementRef } = useScrollReveal({ 
+    delay: 0,
+    rootMargin: '0px 0px -50px 0px',
+    threshold: 0.1
+  });
 
   useEffect(() => {
     if (headerRef.current) {
@@ -34,27 +38,6 @@ export const MenuSection: React.FC<Props> = ({ t, lang, onOrderClick, onProductC
 
     const cards = cardsRef.current.querySelectorAll('[data-index]');
     
-    // Verifica quais cards já estão visíveis inicialmente
-    const checkInitialVisibility = () => {
-      cards.forEach((card) => {
-        const rect = card.getBoundingClientRect();
-        const isInViewport = 
-          rect.top < window.innerHeight &&
-          rect.bottom > 0 &&
-          rect.left < window.innerWidth &&
-          rect.right > 0;
-        
-        if (isInViewport) {
-          const index = parseInt(card.getAttribute('data-index') || '0', 10);
-          setTimeout(() => {
-            setVisibleCards((prev) => new Set([...prev, index]));
-          }, index * 100);
-        }
-      });
-    };
-
-    checkInitialVisibility();
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -69,7 +52,7 @@ export const MenuSection: React.FC<Props> = ({ t, lang, onOrderClick, onProductC
       },
       {
         threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px',
+        rootMargin: '0px 0px 50px 0px',
       }
     );
 

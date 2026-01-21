@@ -14,10 +14,26 @@ export const CTASection: React.FC<Props> = ({ t, onOrderClick }) => {
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
-  const { isVisible: isIconVisible, elementRef: iconElementRef } = useScrollReveal({ delay: 0 });
-  const { isVisible: isTitleVisible, elementRef: titleElementRef } = useScrollReveal({ delay: 200 });
-  const { isVisible: isSubtitleVisible, elementRef: subtitleElementRef } = useScrollReveal({ delay: 400 });
-  const { isVisible: isButtonVisible, elementRef: buttonElementRef } = useScrollReveal({ delay: 600 });
+  const { isVisible: isIconVisible, elementRef: iconElementRef } = useScrollReveal({ 
+    delay: 0,
+    rootMargin: '0px 0px -50px 0px',
+    threshold: 0.1
+  });
+  const { isVisible: isTitleVisible, elementRef: titleElementRef } = useScrollReveal({ 
+    delay: 200,
+    rootMargin: '0px 0px -50px 0px',
+    threshold: 0.1
+  });
+  const { isVisible: isSubtitleVisible, elementRef: subtitleElementRef } = useScrollReveal({ 
+    delay: 400,
+    rootMargin: '0px 0px -50px 0px',
+    threshold: 0.1
+  });
+  const { isVisible: isButtonVisible, elementRef: buttonElementRef } = useScrollReveal({ 
+    delay: 600,
+    rootMargin: '0px 0px -50px 0px',
+    threshold: 0.1
+  });
 
   useEffect(() => {
     if (iconRef.current) {

@@ -11,18 +11,44 @@ interface Props {
 
 export const CalculatorCTA: React.FC<Props> = ({ t, onOpenCalculator }) => {
   const headerRef = useRef<HTMLDivElement>(null);
+  const subtitleRef = useRef<HTMLParagraphElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const featuresRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   
-  const { isVisible: isHeaderVisible, elementRef: headerElementRef } = useScrollReveal({ delay: 200 });
-  const { isVisible: isImageVisible, elementRef: imageElementRef } = useScrollReveal({ delay: 400 });
-  const { isVisible: isFeaturesVisible, elementRef: featuresElementRef } = useScrollReveal({ delay: 300 });
-  const { isVisible: isButtonVisible, elementRef: buttonElementRef } = useScrollReveal({ delay: 500 });
+  // Elementos só aparecem quando entram na viewport durante o scroll
+  const { isVisible: isHeaderVisible, elementRef: headerElementRef } = useScrollReveal({ 
+    delay: 0,
+    rootMargin: '0px 0px -50px 0px',
+    threshold: 0.1
+  });
+  const { isVisible: isSubtitleVisible, elementRef: subtitleElementRef } = useScrollReveal({ 
+    delay: 50,
+    rootMargin: '0px 0px -50px 0px',
+    threshold: 0.1
+  });
+  const { isVisible: isImageVisible, elementRef: imageElementRef } = useScrollReveal({ 
+    delay: 100,
+    rootMargin: '0px 0px -50px 0px',
+    threshold: 0.1
+  });
+  const { isVisible: isFeaturesVisible, elementRef: featuresElementRef } = useScrollReveal({ 
+    delay: 50,
+    rootMargin: '0px 0px -50px 0px',
+    threshold: 0.1
+  });
+  const { isVisible: isButtonVisible, elementRef: buttonElementRef } = useScrollReveal({ 
+    delay: 150,
+    rootMargin: '0px 0px -50px 0px',
+    threshold: 0.1
+  });
 
   React.useEffect(() => {
     if (headerRef.current) {
       (headerElementRef as React.MutableRefObject<HTMLElement | null>).current = headerRef.current;
+    }
+    if (subtitleRef.current) {
+      (subtitleElementRef as React.MutableRefObject<HTMLElement | null>).current = subtitleRef.current;
     }
     if (imageRef.current) {
       (imageElementRef as React.MutableRefObject<HTMLElement | null>).current = imageRef.current;
@@ -33,7 +59,7 @@ export const CalculatorCTA: React.FC<Props> = ({ t, onOpenCalculator }) => {
     if (buttonRef.current) {
       (buttonElementRef as React.MutableRefObject<HTMLElement | null>).current = buttonRef.current;
     }
-  }, [headerElementRef, imageElementRef, featuresElementRef, buttonElementRef]);
+  }, [headerElementRef, subtitleElementRef, imageElementRef, featuresElementRef, buttonElementRef]);
 
   return (
     <section className="py-24 bg-brand-sea relative">
@@ -61,7 +87,10 @@ export const CalculatorCTA: React.FC<Props> = ({ t, onOpenCalculator }) => {
           {/* Conteúdo - Lado Esquerdo */}
           <div className="lg:col-span-3">
             {/* Subtitle */}
-            <p className="text-xl text-brand-porcelain/90 font-medium mb-10">
+            <p 
+              ref={subtitleRef}
+              className={`text-xl text-brand-porcelain/90 font-medium mb-10 scroll-reveal-fade-up ${isSubtitleVisible ? 'visible' : ''}`}
+            >
               {t.subtitle}
             </p>
 

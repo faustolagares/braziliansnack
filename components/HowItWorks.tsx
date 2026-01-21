@@ -12,7 +12,11 @@ export const HowItWorks: React.FC<Props> = ({ t }) => {
   const headerRef = useRef<HTMLDivElement>(null);
   const stepsRef = useRef<HTMLDivElement>(null);
 
-  const { isVisible: isHeaderVisible, elementRef: headerElementRef } = useScrollReveal({ delay: 200 });
+  const { isVisible: isHeaderVisible, elementRef: headerElementRef } = useScrollReveal({ 
+    delay: 0,
+    rootMargin: '0px 0px -50px 0px',
+    threshold: 0.1
+  });
 
   useEffect(() => {
     if (headerRef.current) {
@@ -25,27 +29,6 @@ export const HowItWorks: React.FC<Props> = ({ t }) => {
 
     const stepCards = stepsRef.current.querySelectorAll('[data-index]');
     
-    // Verifica quais steps já estão visíveis inicialmente
-    const checkInitialVisibility = () => {
-      stepCards.forEach((card) => {
-        const rect = card.getBoundingClientRect();
-        const isInViewport = 
-          rect.top < window.innerHeight &&
-          rect.bottom > 0 &&
-          rect.left < window.innerWidth &&
-          rect.right > 0;
-        
-        if (isInViewport) {
-          const index = parseInt(card.getAttribute('data-index') || '0', 10);
-          setTimeout(() => {
-            setVisibleSteps((prev) => new Set([...prev, index]));
-          }, index * 150);
-        }
-      });
-    };
-
-    checkInitialVisibility();
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -60,7 +43,7 @@ export const HowItWorks: React.FC<Props> = ({ t }) => {
       },
       {
         threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px',
+        rootMargin: '0px 0px 50px 0px',
       }
     );
 

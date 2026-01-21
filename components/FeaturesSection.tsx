@@ -11,7 +11,11 @@ interface Props {
 export const FeaturesSection: React.FC<Props> = ({ t }) => {
   const headerRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
-  const { isVisible: isHeaderVisible, elementRef: headerElementRef } = useScrollReveal({ delay: 200 });
+  const { isVisible: isHeaderVisible, elementRef: headerElementRef } = useScrollReveal({ 
+    delay: 0,
+    rootMargin: '0px 0px -50px 0px',
+    threshold: 0.1
+  });
   const [visibleCards, setVisibleCards] = useState<Set<number>>(new Set());
 
   React.useEffect(() => {
@@ -39,7 +43,7 @@ export const FeaturesSection: React.FC<Props> = ({ t }) => {
       },
       {
         threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px',
+        rootMargin: '0px 0px 50px 0px',
       }
     );
 
