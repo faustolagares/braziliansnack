@@ -110,7 +110,7 @@ export const MenuSection: React.FC<Props> = ({ t, lang, onOrderClick, onProductC
       <div className="container mx-auto px-4 md:px-8 relative z-10">
         
         {/* Header Area */}
-        <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-16 gap-8">
+        <div className="flex flex-col md:flex-row items-start md:items-end justify-center md:justify-between mb-16 gap-8">
           <div 
             ref={headerRef}
             className={`max-w-2xl scroll-reveal-fade-up ${isHeaderVisible ? 'visible' : ''}`}
@@ -126,7 +126,7 @@ export const MenuSection: React.FC<Props> = ({ t, lang, onOrderClick, onProductC
           {/* Clean Toggle Switch */}
           <div 
             ref={toggleRef}
-            className={`w-full md:w-auto flex justify-center md:justify-end scroll-reveal-fade-right ${isToggleVisible ? 'visible' : ''}`}
+            className={`w-full md:w-auto flex justify-center scroll-reveal-fade-right ${isToggleVisible ? 'visible' : ''}`}
           >
             <div className="flex bg-white rounded-full p-1 border-2 border-brand-onyx shadow-[4px_4px_0px_0px_#0f0f0f] w-full md:w-auto max-w-sm md:max-w-none">
               <button
