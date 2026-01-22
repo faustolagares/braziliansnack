@@ -1,8 +1,7 @@
-import React, { useState, useMemo, useRef } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Translation, Product, Language } from '../types';
 import { PRODUCTS, WHATSAPP_NUMBER } from '../constants';
 import { Calculator, Users, ShoppingCart, X, Plus, Minus } from 'lucide-react';
-import { useScrollReveal } from '../hooks/useScrollReveal';
 
 interface Props {
   t: Translation['calculator'];
@@ -19,14 +18,6 @@ export const PartyCalculator: React.FC<Props> = ({ t, lang }) => {
   const [people, setPeople] = useState<number>(20);
   const [hasFood, setHasFood] = useState<boolean>(true); // true = terá comida na festa
   const [selectedProducts, setSelectedProducts] = useState<Map<string, SelectedProduct>>(new Map());
-  const headerRef = useRef<HTMLDivElement>(null);
-  const { isVisible: isHeaderVisible, elementRef: headerElementRef } = useScrollReveal({ delay: 200 });
-
-  React.useEffect(() => {
-    if (headerRef.current) {
-      (headerElementRef as React.MutableRefObject<HTMLElement | null>).current = headerRef.current;
-    }
-  }, [headerElementRef]);
 
   // Calcular quantidades recomendadas baseado em ter comida ou não
   const recommendedSavory = useMemo(() => {
@@ -265,10 +256,7 @@ export const PartyCalculator: React.FC<Props> = ({ t, lang }) => {
         
         {/* Header */}
         <div className="mb-12">
-          <div 
-            ref={headerRef}
-            className={`max-w-2xl scroll-reveal-fade-up ${isHeaderVisible ? 'visible' : ''}`}
-          >
+          <div className="max-w-2xl">
             <h2 className="text-5xl md:text-7xl font-display font-black text-brand-onyx uppercase leading-none mb-4">
               {t.title}
             </h2>

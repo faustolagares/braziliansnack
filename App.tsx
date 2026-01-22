@@ -18,6 +18,7 @@ import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { Marquee } from './components/Marquee';
 import { CTASection } from './components/CTASection';
 import { ProductDetails } from './components/ProductDetails';
+import { AboutPage } from './components/AboutPage';
 
 // Componente interno que usa hooks do router
 const AppContent: React.FC = () => {
@@ -42,6 +43,12 @@ const AppContent: React.FC = () => {
       const langCode = browserLang.split('-')[0].toLowerCase();
       if (langCode === 'es') return 'es';
       return 'pt'; // Default para pt
+    } else if (path.startsWith('/about')) {
+      return 'en';
+    } else if (path.startsWith('/acerca-de')) {
+      return 'es';
+    } else if (path.startsWith('/sobre')) {
+      return 'pt';
     } else if (path.startsWith('/producto')) {
       return 'es';
     } else if (path.startsWith('/product/') && !path.startsWith('/producto')) {
@@ -113,6 +120,8 @@ const AppContent: React.FC = () => {
     const currentPath = location.pathname;
     if (currentPath === ROUTES.pt.calculator || currentPath === ROUTES.en.calculator || currentPath === ROUTES.es.calculator) {
       navigate(ROUTES[newLang].calculator);
+    } else if (currentPath === ROUTES.pt.about || currentPath === ROUTES.en.about || currentPath === ROUTES.es.about) {
+      navigate(ROUTES[newLang].about);
     } else if (currentPath.startsWith('/produto/') || currentPath.startsWith('/product/') || currentPath.startsWith('/producto/')) {
       const productId = currentPath.split('/').pop();
       if (productId) {
@@ -125,12 +134,15 @@ const AppContent: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col selection:bg-brand-onyx selection:text-brand-yellow bg-brand-porcelain">
-      <Header 
-        lang={lang} 
-        t={t.nav} 
-        setLang={handleLanguageChange} 
-        onOrderClick={handleOrderClick} 
-      />
+          <Header 
+            lang={lang} 
+            t={t.nav} 
+            setLang={handleLanguageChange} 
+            onOrderClick={handleOrderClick} 
+            onHomeClick={() => navigate(ROUTES[lang].home)}
+            onCalculatorClick={() => navigate(ROUTES[lang].calculator)}
+            onAboutClick={() => navigate(ROUTES[lang].about)}
+          />
       
       <main className="flex-grow">
         <Routes>
@@ -161,6 +173,29 @@ const AppContent: React.FC = () => {
           <Route path={ROUTES.pt.product} element={<ProductRoute lang="pt" onBack={handleBackToHome} onOrderClick={handleOrderClick} />} />
           <Route path={ROUTES.en.product} element={<ProductRoute lang="en" onBack={handleBackToHome} onOrderClick={handleOrderClick} />} />
           <Route path={ROUTES.es.product} element={<ProductRoute lang="es" onBack={handleBackToHome} onOrderClick={handleOrderClick} />} />
+
+          {/* Rotas da Página Sobre */}
+          <Route path={ROUTES.pt.about} element={
+            <AboutPage 
+              t={TRANSLATIONS.pt.about}
+              lang="pt"
+              onOrderClick={handleOrderClick}
+            />
+          } />
+          <Route path={ROUTES.en.about} element={
+            <AboutPage 
+              t={TRANSLATIONS.en.about}
+              lang="en"
+              onOrderClick={handleOrderClick}
+            />
+          } />
+          <Route path={ROUTES.es.about} element={
+            <AboutPage 
+              t={TRANSLATIONS.es.about}
+              lang="es"
+              onOrderClick={handleOrderClick}
+            />
+          } />
 
           {/* Rotas Home (todas as rotas home apontam para o mesmo componente) */}
           <Route path={ROUTES.pt.home} element={

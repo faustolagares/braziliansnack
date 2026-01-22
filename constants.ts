@@ -20,7 +20,9 @@ export const TRANSLATIONS: Record<Language, Translation> = {
       menu: "Cardápio",
       howItWorks: "Como Funciona",
       about: "Sobre",
-      orderBtn: "Pedir Agora"
+      orderBtn: "Pedir Agora",
+      home: "Início",
+      calculator: "Calculadora de Festa"
     },
     menu: {
       title: "Salgados",
@@ -123,6 +125,72 @@ export const TRANSLATIONS: Record<Language, Translation> = {
       locationLabel: 'Localização',
       deliveryTitle: 'Entregamos em'
     },
+    about: {
+      hero: {
+        title: "Sobre a Brazilian's Snack",
+        subtitle: "Conheça nossa história, nossos valores e como fazemos a diferença na sua festa."
+      },
+      why: {
+        title: "Por Que Fazemos Isso",
+        content: [
+          "Acreditamos que festa boa não é sobre excesso. É sobre acertar. É sobre fazer sentido.",
+          "Nosso propósito vai além de vender salgadinhos. Queremos transformar a forma como as pessoas planejam suas festas. Queremos eliminar o desperdício, reduzir o estresse e dar clareza onde antes havia apenas dúvida.",
+          "Cada pedido que fazemos é uma oportunidade de provar que é possível ter qualidade, planejamento e sabor sem exagero. É possível fazer festa do jeito certo: simples, bem feito, com propósito."
+        ]
+      },
+      customerHero: {
+        title: "O Desafio Que Você Enfrenta",
+        content: [
+          "Você já organizou uma festa e ficou na dúvida: vai faltar comida ou vai sobrar demais?",
+          "Essa incerteza gera desperdício, estresse e decisões no escuro. É exatamente isso que queremos resolver."
+        ],
+        problems: [
+          { icon: "Trash", title: "Desperdício", desc: "Comida que sobra e vai para o lixo" },
+          { icon: "AlertTriangle", title: "Estresse", desc: "A ansiedade de não saber se vai dar certo" },
+          { icon: "EyeOff", title: "Decisões no Escuro", desc: "Comprar sem saber a quantidade certa" }
+        ]
+      },
+      thinking: {
+        title: "Como Pensamos",
+        subtitle: "Acreditamos que comida de festa precisa cumprir três coisas ao mesmo tempo",
+        pillars: [
+          {
+            title: "Deliciosa",
+            desc: "Sabor de verdade, receita bem feita, ingredientes certos e preparo no ponto correto."
+          },
+          {
+            title: "Fresca",
+            desc: "Nada de estoque antigo ou produção em massa sem controle. Tudo é feito sob encomenda, no tempo certo, para chegar do jeito que deveria."
+          },
+          {
+            title: "Inteligente",
+            desc: "Quantidade certa, combinações equilibradas e custo justo. Comer bem sem exagero."
+          }
+        ]
+      },
+      process: {
+        title: "Como Fazemos",
+        steps: [
+          "Tudo começa com o planejamento. Você escolhe quantas pessoas vão participar, define os produtos que fazem sentido para o seu tipo de evento e vê a quantidade ideal em tempo real. Sem achismo. Sem exagero.",
+          "A partir disso, nossa produção entra em ação. Cada salgado e cada doce é preparado sob encomenda, respeitando o tempo de preparo, o ponto certo de fritura ou finalização e o padrão de qualidade que seguimos desde o início.",
+          "Não trabalhamos com atalhos. Não congelamos o que deveria ser fresco. Não entregamos algo que não serviríamos na nossa própria mesa."
+        ]
+      },
+      delivery: {
+        title: "O Que Entregamos",
+        content: [
+          "Entregamos mais do que salgadinhos e doces. Entregamos tranquilidade para quem está organizando uma festa. Entregamos confiança para quem recebe convidados. Entregamos a certeza de que você fez a escolha certa.",
+          "Entregamos uma transformação: de dúvida em clareza, de estresse em tranquilidade, de desperdício em planejamento inteligente. Representamos o Brasil com orgulho, cuidado e respeito, mas acima de tudo, entregamos uma experiência que faz sentido."
+        ]
+      },
+      commitment: {
+        title: "Nosso Compromisso",
+        content: [
+          "Cada pedido é tratado como único. Cada festa importa. Cada cliente merece saber exatamente o que está comprando, quanto está comprando e por que aquela quantidade faz sentido.",
+          "Esse é o jeito Brazilian's Snack de fazer festa. Simples. Bem feito. Do jeito certo."
+        ]
+      }
+    },
     common: {
       whatsAppMessage: "Olá! Gostaria de fazer um pedido no Brazilian's Snack."
     }
@@ -138,7 +206,9 @@ export const TRANSLATIONS: Record<Language, Translation> = {
       menu: "Menu",
       howItWorks: "How it Works",
       about: "About",
-      orderBtn: "Order Now"
+      orderBtn: "Order Now",
+      home: "Home",
+      calculator: "Party Calculator"
     },
     menu: {
       title: "Savory Snacks",
@@ -241,6 +311,72 @@ export const TRANSLATIONS: Record<Language, Translation> = {
       locationLabel: 'Location',
       deliveryTitle: 'We deliver to'
     },
+    about: {
+      hero: {
+        title: "About Brazilian's Snack",
+        subtitle: "Learn about our story, our values, and how we make a difference at your party."
+      },
+      why: {
+        title: "Why We Do This",
+        content: [
+          "We believe a good party isn't about excess. It's about getting it right. It's about making sense.",
+          "Our purpose goes beyond selling snacks. We want to transform how people plan their parties. We want to eliminate waste, reduce stress, and bring clarity where there was only doubt.",
+          "Every order we make is an opportunity to prove that it's possible to have quality, planning, and flavor without excess. It's possible to throw a party the right way: simple, well done, with purpose."
+        ]
+      },
+      customerHero: {
+        title: "The Challenge You Face",
+        content: [
+          "Have you ever organized a party and wondered: will there be enough food or will there be too much?",
+          "This uncertainty creates waste, stress, and decisions made in the dark. That's exactly what we want to solve."
+        ],
+        problems: [
+          { icon: "Trash", title: "Waste", desc: "Food that's left over and goes to waste" },
+          { icon: "AlertTriangle", title: "Stress", desc: "The anxiety of not knowing if it will work out" },
+          { icon: "EyeOff", title: "Decisions in the Dark", desc: "Buying without knowing the right amount" }
+        ]
+      },
+      thinking: {
+        title: "How We Think",
+        subtitle: "We believe party food needs to fulfill three things at the same time",
+        pillars: [
+          {
+            title: "Delicious",
+            desc: "Real flavor, well-made recipe, right ingredients, and preparation at the perfect point."
+          },
+          {
+            title: "Fresh",
+            desc: "No old stock or mass production without control. Everything is made to order, at the right time, to arrive the way it should."
+          },
+          {
+            title: "Smart",
+            desc: "Right quantity, balanced combinations, and fair cost. Eat well without excess."
+          }
+        ]
+      },
+      process: {
+        title: "How We Do It",
+        steps: [
+          "Everything starts with planning. You choose how many people will participate, define the products that make sense for your type of event, and see the ideal quantity in real time. No guessing. No excess.",
+          "From there, our production goes into action. Each savory snack and each sweet is prepared to order, respecting preparation time, the right point of frying or finishing, and the quality standard we've followed from the start.",
+          "We don't work with shortcuts. We don't freeze what should be fresh. We don't deliver something we wouldn't serve at our own table."
+        ]
+      },
+      delivery: {
+        title: "What We Deliver",
+        content: [
+          "We deliver more than snacks and sweets. We deliver peace of mind for those organizing a party. We deliver confidence for those receiving guests. We deliver the certainty that you made the right choice.",
+          "We deliver a transformation: from doubt to clarity, from stress to peace of mind, from waste to intelligent planning. We represent Brazil with pride, care, and respect, but above all, we deliver an experience that makes sense."
+        ]
+      },
+      commitment: {
+        title: "Our Commitment",
+        content: [
+          "Every order is treated as unique. Every party matters. Every customer deserves to know exactly what they're buying, how much they're buying, and why that quantity makes sense.",
+          "That's the Brazilian's Snack way of throwing a party. Simple. Well done. The right way."
+        ]
+      }
+    },
     common: {
       whatsAppMessage: "Hello! I would like to place an order at Brazilian's Snack."
     }
@@ -256,7 +392,9 @@ export const TRANSLATIONS: Record<Language, Translation> = {
       menu: "Menú",
       howItWorks: "Cómo Funciona",
       about: "Nosotros",
-      orderBtn: "Pedir Ahora"
+      orderBtn: "Pedir Ahora",
+      home: "Inicio",
+      calculator: "Calculadora de Fiesta"
     },
     menu: {
       title: "Salados",
@@ -358,6 +496,72 @@ export const TRANSLATIONS: Record<Language, Translation> = {
       phoneLabel: 'Teléfono / WhatsApp',
       locationLabel: 'Ubicación',
       deliveryTitle: 'Entregamos en'
+    },
+    about: {
+      hero: {
+        title: "Acerca de Brazilian's Snack",
+        subtitle: "Conoce nuestra historia, nuestros valores y cómo hacemos la diferencia en tu fiesta."
+      },
+      why: {
+        title: "Por Qué Hacemos Esto",
+        content: [
+          "Creemos que una buena fiesta no se trata de exceso. Se trata de acertar. Se trata de tener sentido.",
+          "Nuestro propósito va más allá de vender aperitivos. Queremos transformar la forma en que las personas planean sus fiestas. Queremos eliminar el desperdicio, reducir el estrés y dar claridad donde antes solo había duda.",
+          "Cada pedido que hacemos es una oportunidad de demostrar que es posible tener calidad, planificación y sabor sin exceso. Es posible hacer fiesta de la manera correcta: simple, bien hecho, con propósito."
+        ]
+      },
+      customerHero: {
+        title: "El Desafío Que Enfrentas",
+        content: [
+          "¿Alguna vez has organizado una fiesta y te has preguntado: ¿va a faltar comida o va a sobrar demasiado?",
+          "Esta incertidumbre genera desperdicio, estrés y decisiones a ciegas. Eso es exactamente lo que queremos resolver."
+        ],
+        problems: [
+          { icon: "Trash", title: "Desperdicio", desc: "Comida que sobra y se desperdicia" },
+          { icon: "AlertTriangle", title: "Estrés", desc: "La ansiedad de no saber si funcionará" },
+          { icon: "EyeOff", title: "Decisiones a Ciegas", desc: "Comprar sin saber la cantidad correcta" }
+        ]
+      },
+      thinking: {
+        title: "Cómo Pensamos",
+        subtitle: "Creemos que la comida de fiesta necesita cumplir tres cosas al mismo tiempo",
+        pillars: [
+          {
+            title: "Deliciosa",
+            desc: "Sabor de verdad, receta bien hecha, ingredientes correctos y preparación en el punto correcto."
+          },
+          {
+            title: "Fresca",
+            desc: "Nada de inventario antiguo o producción en masa sin control. Todo se hace bajo pedido, en el momento correcto, para llegar como debería."
+          },
+          {
+            title: "Inteligente",
+            desc: "Cantidad correcta, combinaciones equilibradas y costo justo. Comer bien sin exagerar."
+          }
+        ]
+      },
+      process: {
+        title: "Cómo Lo Hacemos",
+        steps: [
+          "Todo comienza con la planificación. Tú eliges cuántas personas van a participar, defines los productos que tienen sentido para tu tipo de evento y ves la cantidad ideal en tiempo real. Sin suposiciones. Sin exceso.",
+          "A partir de eso, nuestra producción entra en acción. Cada aperitivo y cada dulce se prepara bajo pedido, respetando el tiempo de preparación, el punto correcto de fritura o finalización y el estándar de calidad que seguimos desde el inicio.",
+          "No trabajamos con atajos. No congelamos lo que debería ser fresco. No entregamos algo que no serviríamos en nuestra propia mesa."
+        ]
+      },
+      delivery: {
+        title: "Lo Que Entregamos",
+        content: [
+          "Entregamos más que aperitivos y dulces. Entregamos tranquilidad para quien está organizando una fiesta. Entregamos confianza para quien recibe invitados. Entregamos la certeza de que hiciste la elección correcta.",
+          "Entregamos una transformación: de duda a claridad, de estrés a tranquilidad, de desperdicio a planificación inteligente. Representamos a Brasil con orgullo, cuidado y respeto, pero sobre todo, entregamos una experiencia que tiene sentido."
+        ]
+      },
+      commitment: {
+        title: "Nuestro Compromiso",
+        content: [
+          "Cada pedido se trata como único. Cada fiesta importa. Cada cliente merece saber exactamente qué está comprando, cuánto está comprando y por qué esa cantidad tiene sentido.",
+          "Esa es la forma Brazilian's Snack de hacer fiesta. Simple. Bien hecho. De la manera correcta."
+        ]
+      }
     },
     common: {
       whatsAppMessage: "¡Hola! Me gustaría hacer un pedido en Brazilian's Snack."

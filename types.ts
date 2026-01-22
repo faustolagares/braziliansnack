@@ -67,6 +67,8 @@ export interface Translation {
     howItWorks: string;
     about: string;
     orderBtn: string;
+    home: string;
+    calculator: string;
   };
   menu: {
     title: string;
@@ -160,6 +162,45 @@ export interface Translation {
     phoneLabel: string;
     locationLabel: string;
     deliveryTitle: string;
+  };
+  about: {
+    hero: {
+      title: string;
+      subtitle: string;
+    };
+    why: {
+      title: string;
+      content: string[];
+    };
+    customerHero: {
+      title: string;
+      content: string[];
+      problems: {
+        icon: string;
+        title: string;
+        desc: string;
+      }[];
+    };
+    thinking: {
+      title: string;
+      subtitle: string;
+      pillars: {
+        title: string;
+        desc: string;
+      }[];
+    };
+    process: {
+      title: string;
+      steps: string[];
+    };
+    delivery: {
+      title: string;
+      content: string[];
+    };
+    commitment: {
+      title: string;
+      content: string[];
+    };
   };
   common: {
     whatsAppMessage: string;

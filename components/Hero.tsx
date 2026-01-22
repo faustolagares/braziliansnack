@@ -61,8 +61,8 @@ export const Hero: React.FC<Props> = ({ t, onOrderClick }) => {
         <div 
             className="relative w-full max-w-[500px] aspect-square mt-12 z-10 pointer-events-none pb-0"
             style={{ 
-                transform: `translateY(${scrollY * 0.4}px)`, // Efeito Parallax (move mais devagar que o scroll)
-                opacity: Math.max(0, 1 - scrollY / 2000) // Desaparece suavemente ao rolar muito
+                transform: `translateY(${scrollY * 0.2}px)`, // Efeito Parallax (move mais devagar que o scroll)
+                opacity: Math.max(0, 1 - scrollY / 4000) // Desaparece suavemente ao rolar muito
             }}
         >
            <img 

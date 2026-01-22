@@ -9,9 +9,12 @@ interface Props {
   t: Translation['nav'];
   setLang: (l: Language) => void;
   onOrderClick: () => void;
+  onHomeClick: () => void;
+  onCalculatorClick: () => void;
+  onAboutClick: () => void;
 }
 
-export const Header: React.FC<Props> = ({ lang, t, setLang, onOrderClick }) => {
+export const Header: React.FC<Props> = ({ lang, t, setLang, onOrderClick, onHomeClick, onCalculatorClick, onAboutClick }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -43,7 +46,7 @@ export const Header: React.FC<Props> = ({ lang, t, setLang, onOrderClick }) => {
         <div className="container mx-auto px-4 md:px-8">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
-            <div className="flex-shrink-0 cursor-pointer flex items-center gap-3" onClick={() => scrollToSection('hero')}>
+            <div className="flex-shrink-0 cursor-pointer flex items-center gap-3 pr-4 md:pr-6" onClick={onHomeClick}>
               <img 
                 src="/images/brazilian-snack-logo.png" 
                 alt="Brazilian's Snack Logo" 
@@ -55,14 +58,20 @@ export const Header: React.FC<Props> = ({ lang, t, setLang, onOrderClick }) => {
             </div>
 
             {/* Desktop Nav */}
-            <nav className="hidden md:flex items-center gap-8">
+            <nav className="hidden lg:flex items-center gap-4 xl:gap-6">
+              <button onClick={onHomeClick} className="text-brand-porcelain hover:text-brand-yellow font-bold uppercase tracking-wide text-sm transition-colors">
+                {t.home}
+              </button>
+              <button onClick={onCalculatorClick} className="text-brand-porcelain hover:text-brand-yellow font-bold uppercase tracking-wide text-sm transition-colors">
+                {t.calculator}
+              </button>
               <button onClick={() => scrollToSection('menu')} className="text-brand-porcelain hover:text-brand-yellow font-bold uppercase tracking-wide text-sm transition-colors">
                 {t.menu}
               </button>
               <button onClick={() => scrollToSection('how-it-works')} className="text-brand-porcelain hover:text-brand-yellow font-bold uppercase tracking-wide text-sm transition-colors">
                 {t.howItWorks}
               </button>
-              <button onClick={() => scrollToSection('footer')} className="text-brand-porcelain hover:text-brand-yellow font-bold uppercase tracking-wide text-sm transition-colors">
+              <button onClick={onAboutClick} className="text-brand-porcelain hover:text-brand-yellow font-bold uppercase tracking-wide text-sm transition-colors">
                 {t.about}
               </button>
               
@@ -70,7 +79,7 @@ export const Header: React.FC<Props> = ({ lang, t, setLang, onOrderClick }) => {
 
               <button 
                 onClick={onOrderClick}
-                className="bg-brand-yellow text-brand-onyx px-6 py-2.5 font-bold uppercase tracking-wider border-2 border-brand-onyx shadow-[4px_4px_0px_0px_rgba(15,15,15,1)] hover:shadow-none hover:translate-x-0 hover:translate-y-1 transition-all duration-200"
+                className="bg-brand-yellow text-brand-onyx px-4 lg:px-6 py-2.5 font-bold uppercase tracking-wider border-2 border-brand-onyx shadow-[4px_4px_0px_0px_rgba(15,15,15,1)] hover:shadow-none hover:translate-x-0 hover:translate-y-1 transition-all duration-200 whitespace-nowrap text-xs lg:text-sm"
               >
                 {t.orderBtn}
               </button>
@@ -78,7 +87,7 @@ export const Header: React.FC<Props> = ({ lang, t, setLang, onOrderClick }) => {
 
             {/* Mobile Toggle */}
             <button 
-              className="md:hidden text-brand-yellow p-2"
+              className="lg:hidden text-brand-yellow p-2"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               {isMobileMenuOpen ? <X size={32} strokeWidth={2.5} /> : <Menu size={32} strokeWidth={2.5} />}
@@ -91,13 +100,19 @@ export const Header: React.FC<Props> = ({ lang, t, setLang, onOrderClick }) => {
       {isMobileMenuOpen && (
         <div className="fixed inset-0 z-40 bg-brand-porcelain pt-24 px-4">
            <div className="flex flex-col space-y-6 text-center">
+              <button onClick={() => { onHomeClick(); setIsMobileMenuOpen(false); }} className="text-4xl font-display font-bold text-brand-onyx hover:text-brand-sea">
+                {t.home}
+              </button>
+              <button onClick={() => { onCalculatorClick(); setIsMobileMenuOpen(false); }} className="text-4xl font-display font-bold text-brand-onyx hover:text-brand-sea">
+                {t.calculator}
+              </button>
               <button onClick={() => scrollToSection('menu')} className="text-4xl font-display font-bold text-brand-onyx hover:text-brand-sea">
                 {t.menu}
               </button>
               <button onClick={() => scrollToSection('how-it-works')} className="text-4xl font-display font-bold text-brand-onyx hover:text-brand-sea">
                 {t.howItWorks}
               </button>
-              <button onClick={() => scrollToSection('footer')} className="text-4xl font-display font-bold text-brand-onyx hover:text-brand-sea">
+              <button onClick={() => { onAboutClick(); setIsMobileMenuOpen(false); }} className="text-4xl font-display font-bold text-brand-onyx hover:text-brand-sea">
                 {t.about}
               </button>
               
